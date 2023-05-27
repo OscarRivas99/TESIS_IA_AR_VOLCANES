@@ -28,11 +28,11 @@ import org.tensorflow.lite.task.vision.detector.Detection
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
 
 class ObjectDetectorHelper(
-  var threshold: Float = 0.7f,
+  var threshold: Float = 0.77f,
   var numThreads: Int = 2,
   var maxResults: Int = 1,
   var currentDelegate: Int = 0,
-  var currentModel: Int = 0,
+  var currentModel: Int = 1,
   val context: Context,
   val objectDetectorListener: DetectorListener?
 ) {
@@ -84,12 +84,9 @@ class ObjectDetectorHelper(
 
         val modelName =
             when (currentModel) {
-                MODEL_MOBILENETV1 -> "mobilenetv1.tflite"
-                MODEL_EFFICIENTDETV0 -> "efficientdet-lite0.tflite"
-                MODEL_EFFICIENTDETV1 -> "efficientdet-lite1.tflite"
-                MODEL_EFFICIENTDETV2 -> "efficientdet-lite2.tflite"
                 MODEL_VOLCANIZALCO -> "volcan-izalco_object.tflite"
-                else -> "volcan-izalco_object.tflite"
+                MODEL_VOLCANIZALCOV2 -> "volcan-izalco-v2.tflite"
+                else -> "volcan-izalco-v2.tflite"
             }
 
         try {
@@ -147,9 +144,10 @@ class ObjectDetectorHelper(
         const val DELEGATE_GPU = 1
         const val DELEGATE_NNAPI = 2
         const val MODEL_VOLCANIZALCO = 0
-        const val MODEL_EFFICIENTDETV0 = 1
-        const val MODEL_EFFICIENTDETV1 = 2
-        const val MODEL_EFFICIENTDETV2 = 3
-        const val MODEL_MOBILENETV1 = 4
+        const val MODEL_VOLCANIZALCOV2 = 1
+        //const val MODEL_EFFICIENTDETV0 = 1
+        //const val MODEL_EFFICIENTDETV1 = 2
+        //const val MODEL_EFFICIENTDETV2 = 3
+        //const val MODEL_MOBILENETV1 = 4
     }
 }
