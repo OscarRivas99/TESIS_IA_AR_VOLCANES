@@ -81,25 +81,43 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
             val drawableRect = RectF(left, top, right, bottom)
             canvas.drawRect(drawableRect, boxPaint)
 
-            // Create text to display alongside detected objects
-            val drawableText =
-                result.categories[0].label + " " +
-                        String.format("%.2f", result.categories[0].score)
+//          Definimos texto a mostrar cuando detecte especificamente al volcan de izalco
 
-            // Draw rect behind display text
-            textBackgroundPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
-            val textWidth = bounds.width()
-            val textHeight = bounds.height()
-            canvas.drawRect(
-                left,
-                top,
-                left + textWidth + Companion.BOUNDING_RECT_TEXT_PADDING,
-                top + textHeight + Companion.BOUNDING_RECT_TEXT_PADDING,
-                textBackgroundPaint
-            )
+            // texto original con el salto de línea incluido
+            var drawableText = "Volcán de Izalco\nElevación: 1,950m\nSuperficie: 1,225 hectáreas"
 
-            // Draw text for detected object
-            canvas.drawText(drawableText, left, top + bounds.height(), textPaint)
+            // Divide el texto en líneas
+            val lines = drawableText.split("\n")
+
+            // Calcula la altura total necesaria para mostrar todo el texto
+            val textHeight = textPaint.fontSpacing
+            val totalHeight = textHeight * lines.size
+
+            // Calcula el ancho necesario para el rectángulo de fondo
+            var textWidth = 0f
+            for (line in lines) {
+                val lineWidth = textPaint.measureText(line)
+                if (lineWidth > textWidth) {
+                    textWidth = lineWidth
+                }
+            }
+
+            // Calcula las coordenadas para el rectángulo de fondo (Fondo negro)
+            val rectLeft = left - Companion.BOUNDING_RECT_TEXT_PADDING // Ajuste para posicionar el rectángulo afuera del cuadro
+            val rectTop = top - totalHeight - 2 * Companion.BOUNDING_RECT_TEXT_PADDING // Ajuste para posicionar el rectángulo arriba del texto
+            val rectRight = left + textWidth + Companion.BOUNDING_RECT_TEXT_PADDING
+            val rectBottom = top - Companion.BOUNDING_RECT_TEXT_PADDING // Ajuste para posicionar el rectángulo afuera del cuadro
+
+            // Fondo negro
+            canvas.drawRect(rectLeft, rectTop, rectRight, rectBottom, textBackgroundPaint)
+
+            // Dibuja todas las líneas de texto arriba del cuadrado (Texto dentro del fondo negro)
+            val fontMetrics = textPaint.fontMetrics
+            var currentHeight = top - fontMetrics.ascent - 2 * Companion.BOUNDING_RECT_TEXT_PADDING - totalHeight // Ajuste para posicionar el texto afuera del cuadro
+            for (line in lines) {
+                canvas.drawText(line, left, currentHeight, textPaint)
+                currentHeight += textHeight
+            }
         }
     }
 
