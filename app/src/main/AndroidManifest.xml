@@ -25,6 +25,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme"
             android:exported="true"
@@ -33,6 +34,8 @@
             android:resizeableActivity="true"
             android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
             tools:targetApi="O">
+
+
 
             <!-- Main app intent filter -->
             <intent-filter>
