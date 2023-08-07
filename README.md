@@ -12,5 +12,3 @@ DOCB - Detección Volcán Izalco App es una aplicación que utiliza tecnologías
 -Android Studio
 -TensorFlow
 -Asana
-
-enlaces de webs oficiales (si lo ves necesario)
